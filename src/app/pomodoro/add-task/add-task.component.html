@@ -1,0 +1,51 @@
+<div class="add">
+    <button (click)="showEditField()"> + Tarefa </button>
+</div>
+<div [class]="editFieldController" id="collapseExample">
+    <div class="task-edit">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-8">
+                    <label for="task">Tarefa</label>
+                    <input 
+                        id="task" 
+                        type="text"
+                        class="form-control"
+                        formControlName="name"
+                    >
+                </div>
+                <div class="col-4">
+                    <label for="pomodoros"> Pomodoros: {{ form.controls['pomodoros'].value }}</label>
+                    <input 
+                        type="range" 
+                        class="form-range" 
+                        min="1" max="4" 
+                        id="pomodoros"
+                        formControlName="pomodoros"
+                    >
+                </div>
+            </div>
+            <div class="buttons">
+                <button 
+                    [disabled]="!form.valid" 
+                    *ngIf="!editMode"
+                    class="btn btn-success"
+                    (click)="onAddTask()"
+                    >Adicionar
+                </button>
+                <button 
+                    [disabled]="!form.valid" 
+                    *ngIf="editMode" 
+                    (click)="onEditTask()"
+                    class="btn btn-warning"
+                    >Editar
+                </button>
+                <button 
+                    class="btn btn-danger"
+                    (click)="onClose()"
+                    >Fechar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

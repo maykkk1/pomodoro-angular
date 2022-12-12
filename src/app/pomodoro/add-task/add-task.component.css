@@ -1,0 +1,55 @@
+.add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    text-transform: uppercase;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 auto;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.buttons button{
+    width: max-content;
+    margin: 0;
+    padding: 5px 5px;
+}
+
+.card-body {
+    margin-top: 5px;
+}
+
+form {
+    margin-top: 20px;
+}
+
+.col-8, .col-4 {
+    height: 70px;
+    gap: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-control {
+    margin-left: 5px;
+    width: 80%;
+    display: inline;
+}
+
+.col-4 {
+    flex-direction: column;
+}
+
+input.ng-invalid.ng-touched {
+    border: solid 2px red;
+    border-radius: 2px;
+}

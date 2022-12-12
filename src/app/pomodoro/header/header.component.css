@@ -1,0 +1,14 @@
+.row {
+    position: relative;
+    margin-top: 10px;
+}
+
+button {
+    border: none;
+    background-color: none;
+    width: max-content;
+    position: absolute;
+    background-color: transparent;
+    top: 15px;
+    right: 0;
+}

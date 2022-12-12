@@ -1,0 +1,52 @@
+
+.timer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 250px;
+}
+
+.time {
+    font-size: 5rem;
+}
+
+.pomodoro, .rest {
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: rgb(39, 38, 38);
+}
+
+.pomodoro {
+    background-color: rgba(255, 99, 71, 0.638);
+}
+
+.rest {
+    background-color: aquamarine;
+}
+
+.clock-logo {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border: none;
+    background-color: none;
+    width: max-content;
+    background-color: transparent;
+}
+
+.tomato-container {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    height: 20px;
+}
+
+.tomato-container img {
+    height: 100%;
+}

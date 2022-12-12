@@ -1,0 +1,31 @@
+<li class="list-group-item">
+    <div class="row">
+        <div class="col-9">
+            <p>{{ task.name }}</p>
+        </div>
+        <div class="col-3">
+            <button (click)="onSelectTask()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff6347" class="bi bi-play-fill" viewBox="0 0 16 16">
+                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                </svg>
+            </button>
+            <button class="menu-item-btn" (click)="showMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </button>
+            <div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tomato-container">
+            <img *ngFor="let item of [].constructor(task.pomodoros)" src="../../../../assets/images/tomato.png" alt="">
+        </div>
+    </div>
+    <div *ngIf="isMenuVisible" class="task-menu">
+        <button type="button" (click)="onDeleTask()">Excluir</button>
+        <button type="button" (click)="onEditTask()">Editar</button>
+    </div>
+</li>

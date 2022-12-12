@@ -1,0 +1,57 @@
+button {
+    border: none;
+    background-color: transparent;
+}
+
+p {
+    margin: 0;
+}
+
+.col-3 {
+    display: flex;
+    justify-content: flex-end;
+}
+li {
+    margin-top: 2px;
+    position: relative;
+}
+
+.tomato-container {
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 20px;
+    height: 10px;
+}
+
+.tomato-container img {
+    height: 100%;
+}
+
+.menu-item-btn {
+    background-color: rgba(126, 125, 125, 0.211);
+    border-radius: 5px;
+}
+
+.task-menu {
+    transition: 400ms ease-in-out;
+    position: absolute;
+    z-index: 10;
+    top: 42px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    border: 1px solid rgba(0, 0, 0, 0.099);
+    background-color: rgb(235, 229, 229);
+    border-radius: 4px;
+}
+
+.task-menu button {
+    width: 100%;
+    cursor: pointer;
+    transition: 400ms ease-in-out;
+}
+
+.task-menu button:hover {
+    background-color: rgb(195, 192, 192);
+}

@@ -1,0 +1,13 @@
+.pomodoro {
+    width: 100vw;
+    height: max-content;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+}
+
+.pomodoro-container {
+    width: 100%;
+    max-width: 500px;
+}
