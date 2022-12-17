@@ -2,20 +2,44 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { Task } from "./task.moodel";
 
+export interface timer {
+    shortBreak: number,
+    longBreak: number,
+    pomodoro: number
+}
+
 @Injectable({providedIn: 'root'})
 export class TaskService {
     selectTask: Subject<Task> = new Subject();
     tasksChanged: Subject<Task[]> = new Subject();
     editedTask: Subject<Task> = new Subject();
-    tasks: Task[] = [{id: 1, name: 'teste', pomodoros:1}];
+    timerChanged: Subject<timer> = new Subject();
+    tasks: Task[] = [];
     currentIdCounter: number = 0;
+    time: timer = {shortBreak:5, longBreak:15, pomodoro: 50}
+    currentActiveTask: Task;
+
 
     getTasks() {
         return this.tasks.slice()
     }
 
+    getTime(){
+        return this.time;
+    }
+
     onSelectTask(task: Task){
-        this.selectTask.next(task)
+        const newActiveTask = this.tasks.find(t => t.id == task.id)
+        if(this.currentActiveTask != undefined && newActiveTask != undefined) {
+            this.currentActiveTask.isActive = false;
+            this.currentActiveTask = newActiveTask;
+            this.currentActiveTask.isActive = true;
+            return this.selectTask.next(task)
+        } else if(newActiveTask != undefined) {
+            this.currentActiveTask = newActiveTask;
+            this.currentActiveTask.isActive = true;
+            return this.selectTask.next(task)
+        }
     }
 
     deleteTask(taskId: number){

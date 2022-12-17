@@ -18,6 +18,7 @@ export class TaskListItemComponent implements OnInit {
 
   onSelectTask(){
     this.taskService.onSelectTask(this.task)
+    console.log(this.taskService.getTasks())
   }
 
   onDeleTask() {

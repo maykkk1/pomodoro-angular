@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { clearInterval, setInterval } from 'worker-timers';
 import { Task } from '../task.moodel';
-import { TaskService } from '../task.service';
+import { TaskService, timer } from '../task.service';
 
 @Component({
   selector: 'app-timer',
@@ -23,7 +23,8 @@ export class TimerComponent implements OnInit, OnDestroy {
   seconds: number = 0;
   pomodoros: number;
 
-
+  timerSettings: timer;
+  timerSettingsSub: Subscription;
   timer: any;
   taskSub: Subscription;
 
@@ -40,6 +41,14 @@ export class TimerComponent implements OnInit, OnDestroy {
       if(this.isTimerStarted) this.stopTimer()
       this.isTaskSelected = true;
     })
+
+    this.timerSettings = this.taskService.getTime();
+
+    this.timerSettingsSub = this.taskService.timerChanged.subscribe(newTimerSettings => {
+      this.timerSettings = newTimerSettings;
+      this.resetTimer()
+    })
+
   }
 
   startTimer() {
@@ -60,7 +69,7 @@ export class TimerComponent implements OnInit, OnDestroy {
       }
     }
     return this.seconds--
-    }, 1)
+    }, 1000)
   }
 
   stopTimer(){
@@ -75,21 +84,21 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   resetTimer(){
-    this.minutes = 25;
+    this.minutes = this.timerSettings.pomodoro;
     this.seconds = 0;
   }
 
   SetToPomodoroTime(){
-    this.minutes = 25
+    this.minutes = this.timerSettings.pomodoro;
     this.titleService
       .setTitle(`${this.minutes < 10 ? '0': ''}${this.minutes}:${this.seconds < 10 ? '0': ''}${this.seconds == 0 ? 0 : this.seconds - 1}`)
   }
 
   SetToRestTime() {
     if(this.pomodoros == 0 && this.completePomodoCycle) {
-      this.minutes = 15
+      this.minutes = this.timerSettings.longBreak
     } else {
-      this.minutes = 5
+      this.minutes = this.timerSettings.shortBreak
     }
     this.titleService
       .setTitle(`${this.minutes < 10 ? '0': ''}${this.minutes}:${this.seconds < 10 ? '0': ''}${this.seconds == 0 ? 0 : this.seconds - 1}`)
