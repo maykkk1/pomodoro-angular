@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 import { clearInterval, setInterval } from 'worker-timers';
 import { Task } from '../task.moodel';
 import { TaskService, timer } from '../task.service';
@@ -20,6 +20,8 @@ export class TimerComponent implements OnInit, OnDestroy {
   isRestTime: boolean;
   isTaskOver: boolean;
 
+  alarm = new Audio();
+
 
   minutes: number;
   seconds: number = 0;
@@ -33,16 +35,18 @@ export class TimerComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService, private titleService: Title) { }
 
   ngOnInit(): void {
-    this.taskSub = this.taskService.selectTask.subscribe(taskData => {
-      this.currentTask = taskData;
-      this.pomodoros = taskData.pomodoros;
-      this.resetTimer()
-      this.SetToPomodoroTime()
-      this.isPomodoroTime = true;
-      if(taskData.pomodoros == 4) this.completePomodoCycle = true;
-      if(this.isTimerStarted) this.stopTimer()
-      this.isTaskSelected = true;
-      this.isTaskOver = false;
+    this.alarm.src = "../../assets/sounds/Som de Despertador Efeitos Sonoros   Alarm Clock Sound - Sound Effect .mp3"
+    this.taskSub = this.taskService.selectTask
+      .subscribe(taskData => {
+        this.currentTask = taskData;
+        this.pomodoros = taskData.pomodoros;
+        this.resetTimer()
+        this.SetToPomodoroTime()
+        this.isPomodoroTime = true;
+        if(taskData.pomodoros == 4) this.completePomodoCycle = true;
+        if(this.isTimerStarted) this.stopTimer()
+        this.isTaskSelected = true;
+        this.isTaskOver = false;
     })
 
     this.timerSettings = this.taskService.getTime();
@@ -55,6 +59,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   startTimer() {
+    this.stopAlarm()
     this.isTimerStarted = true;
     this.timer = setInterval(() => {
       this.titleService
@@ -115,6 +120,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.stopTimer()
     this.isRestTime = true;
     this.SetToRestTime()
+    this.playAlarm()
   }
 
   currentRestEnded() {
@@ -127,22 +133,37 @@ export class TimerComponent implements OnInit, OnDestroy {
       this.isPomodoroTime = true;
       this.SetToPomodoroTime()
     }
+    this.playAlarm()
   }
 
   onTaskOver() {
     this.isTaskOver = true;
+    this.playAlarm()
   }
 
   finishTask(){
+    this.titleService.setTitle('Pomodoro')
+    this.stopAlarm()
     this.isTaskSelected = false;
     //atualizar dados da tarefa completa
     //arrumar um jeito de apagar a porra da tarefa
     this.resetTimer()
     this.isTaskOver = false;
+    this.taskService.completeTask(this.currentTask.id);
   }
 
   closeModalByClickingOutside(event: any){
     if(this.modal.nativeElement !== event.srcElement) this.finishTask()
+  }
+
+  playAlarm(){
+    this.alarm.load();
+    this.alarm.play();
+  }
+
+  stopAlarm(){
+    this.alarm.pause();
+    this.alarm.currentTime = 0;
   }
 
   ngOnDestroy(): void {

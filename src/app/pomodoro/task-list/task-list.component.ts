@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 import { Task } from '../task.moodel';
 import { TaskService } from '../task.service';
 
@@ -16,6 +16,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tasks = this.taskService.getTasks()
     this.sub = this.taskService.tasksChanged
+    .pipe(
+      map(tasks => tasks.filter(t => t.isComplete === false))
+    )
       .subscribe(newTasks => { this.tasks = newTasks })
   }
 

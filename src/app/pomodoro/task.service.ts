@@ -62,4 +62,12 @@ export class TaskService {
             this.tasksChanged.next(this.tasks.slice())
         }
     }
+
+    completeTask(id: number) {
+        const completeTask = this.tasks.find(t => t.id == id)
+        if(completeTask != undefined) {
+            completeTask.isComplete = true;
+        }
+        this.tasksChanged.next(this.tasks.slice())
+    }
 }
