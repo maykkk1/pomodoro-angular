@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { clearInterval, setInterval } from 'worker-timers';
@@ -12,11 +12,13 @@ import { TaskService, timer } from '../task.service';
 })
 export class TimerComponent implements OnInit, OnDestroy {
   currentTask: Task;
+  @ViewChild('modal') modal: ElementRef;
   isTimerStarted: boolean = false;
   isTaskSelected: boolean = false;
   completePomodoCycle: boolean;
   isPomodoroTime: boolean;
   isRestTime: boolean;
+  isTaskOver: boolean;
 
 
   minutes: number;
@@ -40,6 +42,7 @@ export class TimerComponent implements OnInit, OnDestroy {
       if(taskData.pomodoros == 4) this.completePomodoCycle = true;
       if(this.isTimerStarted) this.stopTimer()
       this.isTaskSelected = true;
+      this.isTaskOver = false;
     })
 
     this.timerSettings = this.taskService.getTime();
@@ -69,7 +72,7 @@ export class TimerComponent implements OnInit, OnDestroy {
       }
     }
     return this.seconds--
-    }, 1000)
+    }, 1)
   }
 
   stopTimer(){
@@ -86,15 +89,18 @@ export class TimerComponent implements OnInit, OnDestroy {
   resetTimer(){
     this.minutes = this.timerSettings.pomodoro;
     this.seconds = 0;
+    this.stopTimer();
   }
 
   SetToPomodoroTime(){
+    this.isRestTime = false;
     this.minutes = this.timerSettings.pomodoro;
     this.titleService
       .setTitle(`${this.minutes < 10 ? '0': ''}${this.minutes}:${this.seconds < 10 ? '0': ''}${this.seconds == 0 ? 0 : this.seconds - 1}`)
   }
 
   SetToRestTime() {
+    this.isPomodoroTime = false
     if(this.pomodoros == 0 && this.completePomodoCycle) {
       this.minutes = this.timerSettings.longBreak
     } else {
@@ -107,7 +113,6 @@ export class TimerComponent implements OnInit, OnDestroy {
   currentPomodoroEnded() {
     this.pomodoros--
     this.stopTimer()
-    this.isPomodoroTime = false;
     this.isRestTime = true;
     this.SetToRestTime()
   }
@@ -115,13 +120,29 @@ export class TimerComponent implements OnInit, OnDestroy {
   currentRestEnded() {
     if(this.pomodoros == 0) {
       this.stopTimer()
-      console.log('acabou')
+      this.onTaskOver()
+      this.SetToPomodoroTime()
     } else {
       this.stopTimer()
       this.isPomodoroTime = true;
-      this.isRestTime = false;
       this.SetToPomodoroTime()
     }
+  }
+
+  onTaskOver() {
+    this.isTaskOver = true;
+  }
+
+  finishTask(){
+    this.isTaskSelected = false;
+    //atualizar dados da tarefa completa
+    //arrumar um jeito de apagar a porra da tarefa
+    this.resetTimer()
+    this.isTaskOver = false;
+  }
+
+  closeModalByClickingOutside(event: any){
+    if(this.modal.nativeElement !== event.srcElement) this.finishTask()
   }
 
   ngOnDestroy(): void {

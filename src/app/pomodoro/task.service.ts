@@ -16,7 +16,7 @@ export class TaskService {
     timerChanged: Subject<timer> = new Subject();
     tasks: Task[] = [];
     currentIdCounter: number = 0;
-    time: timer = {shortBreak:5, longBreak:15, pomodoro: 50}
+    time: timer = {shortBreak:5, longBreak:15, pomodoro: 25}
     currentActiveTask: Task;
 
 

@@ -33,7 +33,7 @@
     align-items: center;
 }
 
-button {
+.timer > button {
     border: none;
     background-color: none;
     width: max-content;
@@ -49,4 +49,31 @@ button {
 
 .tomato-container img {
     height: 100%;
+}
+
+
+.task-over-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.233);
+    z-index: 1000;
+}
+
+.task-over-modal {
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
 }

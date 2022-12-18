@@ -11,7 +11,6 @@ import { AddTaskComponent } from './pomodoro/add-task/add-task.component';
 import { TaskListComponent } from './pomodoro/task-list/task-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskListItemComponent } from './pomodoro/task-list/task-list-item/task-list-item.component';
-import { TaskService } from './pomodoro/task.service';
 
 @NgModule({
   declarations: [
